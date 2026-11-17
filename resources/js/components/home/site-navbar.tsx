@@ -23,6 +23,12 @@ const navLinks = [
 const navLinkClassName =
     'text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-50 focus-visible:text-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded-sm';
 
+const ctaButtonClassName =
+    'bg-gradient-to-r from-red-500 to-pink-500 text-white hover:opacity-90';
+
+const ghostButtonClassName =
+    'text-zinc-300 hover:bg-zinc-900 hover:text-zinc-50';
+
 interface SiteNavbarProps {
     isAuthenticated: boolean;
 }
@@ -52,7 +58,7 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
 
                 <div className="hidden items-center gap-3 lg:flex">
                     {isAuthenticated ? (
-                        <Button asChild>
+                        <Button asChild className={ctaButtonClassName}>
                             <Link href={dashboard()}>Dashboard</Link>
                         </Button>
                     ) : (
@@ -60,7 +66,7 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                             <Link href={login()} className={navLinkClassName}>
                                 Log in
                             </Link>
-                            <Button asChild>
+                            <Button asChild className={ctaButtonClassName}>
                                 <Link href={register()}>Get Started</Link>
                             </Button>
                         </>
@@ -74,6 +80,7 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                                 variant="ghost"
                                 size="icon"
                                 aria-label="Open navigation menu"
+                                className={ghostButtonClassName}
                             >
                                 <Menu className="size-5" />
                             </Button>
@@ -100,7 +107,10 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                             <div className="mt-4 flex flex-col gap-2 px-3">
                                 {isAuthenticated ? (
                                     <SheetClose asChild>
-                                        <Button asChild>
+                                        <Button
+                                            asChild
+                                            className={ctaButtonClassName}
+                                        >
                                             <Link href={dashboard()}>
                                                 Dashboard
                                             </Link>
@@ -117,7 +127,10 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                                             </Link>
                                         </SheetClose>
                                         <SheetClose asChild>
-                                            <Button asChild>
+                                            <Button
+                                                asChild
+                                                className={ctaButtonClassName}
+                                            >
                                                 <Link href={register()}>
                                                     Get Started
                                                 </Link>

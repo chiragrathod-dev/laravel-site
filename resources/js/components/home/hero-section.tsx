@@ -29,16 +29,25 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                         elegant, scalable, and maintainable applications.
                     </p>
                     <div className="mt-10 flex flex-wrap items-center gap-4">
-                        <Button size="lg" asChild>
+                        <Button
+                            size="lg"
+                            asChild
+                            className="bg-gradient-to-r from-red-500 to-pink-500 text-white hover:opacity-90"
+                        >
                             <Link
                                 href={
                                     isAuthenticated ? dashboard() : register()
                                 }
                             >
-                                Get Started
+                                {isAuthenticated ? 'Dashboard' : 'Get Started'}
                             </Link>
                         </Button>
-                        <Button size="lg" variant="outline" asChild>
+                        <Button
+                            size="lg"
+                            variant="outline"
+                            asChild
+                            className="border-zinc-700 bg-transparent text-zinc-100 hover:bg-zinc-900 hover:text-zinc-50"
+                        >
                             <a href="#dev-experience">Explore Documentation</a>
                         </Button>
                     </div>
