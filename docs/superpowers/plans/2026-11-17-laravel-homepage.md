@@ -34,9 +34,11 @@
 ### Task 1: Scroll-reveal hook
 
 **Files:**
+
 - Create: `resources/js/hooks/use-reveal.ts`
 
 **Interfaces:**
+
 - Produces: `useReveal<T extends HTMLElement = HTMLDivElement>(): { ref: React.RefObject<T | null>; isVisible: boolean }` — later tasks attach `ref` to a section wrapper and conditionally apply a "revealed" vs "pre-reveal" className based on `isVisible`.
 
 - [ ] **Step 1: Implement `useReveal`**
@@ -60,9 +62,11 @@ git commit -m "feat: add scroll-reveal hook for homepage sections"
 ### Task 2: CodeWindow primitive
 
 **Files:**
+
 - Create: `resources/js/components/home/code-window.tsx`
 
 **Interfaces:**
+
 - Produces: `CodeWindow({ filename, className, children }: { filename?: string; className?: string; children: React.ReactNode }): JSX.Element` — later tasks (5, 8, 10) pass hand-styled `<pre>`/`<code>`/`<span>` markup as `children` for their own PHP snippets.
 
 - [ ] **Step 1: Implement `CodeWindow`**
@@ -86,9 +90,11 @@ git commit -m "feat: add CodeWindow primitive for homepage code snippets"
 ### Task 3: InfoCard primitive
 
 **Files:**
+
 - Create: `resources/js/components/home/info-card.tsx`
 
 **Interfaces:**
+
 - Consumes: any `lucide-react` icon component as `icon`.
 - Produces: `InfoCard({ icon: Icon, title, description, compact, href }: { icon: LucideIcon; title: string; description: string; compact?: boolean; href?: string }): JSX.Element` — used by Tasks 6, 7, 9, 11 (trust, features, ecosystem, community).
 
@@ -113,9 +119,11 @@ git commit -m "feat: add InfoCard primitive for homepage content cards"
 ### Task 4: SiteNavbar
 
 **Files:**
+
 - Create: `resources/js/components/home/site-navbar.tsx`
 
 **Interfaces:**
+
 - Consumes: `Sheet`, `SheetTrigger`, `SheetContent` (or equivalent exports) from `@/components/ui/sheet`; `Button` from `@/components/ui/button`; `login`, `register`, `dashboard` from `@/routes`; `Menu`, `X` icons from `lucide-react`.
 - Produces: `SiteNavbar({ isAuthenticated }: { isAuthenticated: boolean }): JSX.Element` — used by Task 14 (`welcome.tsx`).
 
@@ -140,20 +148,24 @@ git commit -m "feat: add homepage navbar with mobile drawer"
 ### Task 5: HeroSection
 
 **Files:**
+
 - Create: `resources/js/components/home/hero-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `CodeWindow` (Task 2), `Button` from `@/components/ui/button`, `register`, `dashboard` from `@/routes`.
 - Produces: `HeroSection({ isAuthenticated }: { isAuthenticated: boolean }): JSX.Element` — used by Task 14.
 
 - [ ] **Step 1: Implement `HeroSection`**
 
 Full-bleed top section, `bg-zinc-950` with a layered radial/conic gradient glow (red/pink, low opacity, `blur-3xl`, positioned absolute behind content — purely decorative, `aria-hidden`). Two-column layout at `lg` (text left, code right; stacked on mobile). Left: `<h1>` "Build powerful web applications, faster." (large, bold, tight tracking), supporting `<p>` "A modern PHP framework designed to help developers build elegant, scalable, and maintainable applications." (muted), two CTAs: primary `Button` → `isAuthenticated ? dashboard() : register()` labeled "Get Started", secondary outline/ghost `Button asChild` wrapping an `<a href="#dev-experience">` labeled "Explore Documentation". Right: a `CodeWindow filename="routes/web.php"` containing a hand-styled PHP snippet equivalent in spirit to:
+
 ```php
 Route::get('/users', function () {
     return User::latest()->get();
 });
 ```
+
 with manually colored `<span>`s (e.g. keywords in `text-pink-400`, class names in `text-sky-300`, strings in `text-emerald-300`) — exact token boundaries are the builder's call.
 
 - [ ] **Step 2: Verify types**
@@ -173,9 +185,11 @@ git commit -m "feat: add homepage hero section"
 ### Task 6: TrustSection
 
 **Files:**
+
 - Create: `resources/js/components/home/trust-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `InfoCard` (Task 3, `compact`), `useReveal` (Task 1).
 - Produces: `TrustSection(): JSX.Element` — used by Task 14.
 
@@ -200,9 +214,11 @@ git commit -m "feat: add homepage trust/stats section"
 ### Task 7: FeaturesSection
 
 **Files:**
+
 - Create: `resources/js/components/home/features-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `InfoCard` (Task 3), `useReveal` (Task 1).
 - Produces: `FeaturesSection(): JSX.Element`, rendering `<section id="features">` — used by Task 14.
 
@@ -227,9 +243,11 @@ git commit -m "feat: add homepage features grid section"
 ### Task 8: DevExperienceSection
 
 **Files:**
+
 - Create: `resources/js/components/home/dev-experience-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `CodeWindow` (Task 2), `useReveal` (Task 1).
 - Produces: `DevExperienceSection(): JSX.Element`, rendering `<section id="dev-experience">` — used by Task 14.
 
@@ -254,9 +272,11 @@ git commit -m "feat: add homepage developer-experience section"
 ### Task 9: EcosystemSection
 
 **Files:**
+
 - Create: `resources/js/components/home/ecosystem-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `InfoCard` (Task 3), `useReveal` (Task 1).
 - Produces: `EcosystemSection(): JSX.Element`, rendering `<section id="ecosystem">` — used by Task 14.
 
@@ -281,15 +301,18 @@ git commit -m "feat: add homepage ecosystem section"
 ### Task 10: CodeExampleSection
 
 **Files:**
+
 - Create: `resources/js/components/home/code-example-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `CodeWindow` (Task 2), `useReveal` (Task 1).
 - Produces: `CodeExampleSection(): JSX.Element` — used by Task 14.
 
 - [ ] **Step 1: Implement `CodeExampleSection`**
 
 Full-width dark section, heading "Simple code. Powerful applications." Single large `CodeWindow filename="routes/api.php"` containing a hand-styled, original PHP snippet in the spirit of:
+
 ```php
 Route::post('/orders', function (Request $request) {
     $order = Order::create(
@@ -302,6 +325,7 @@ Route::post('/orders', function (Request $request) {
     return response()->json($order);
 });
 ```
+
 Wrap in the `useReveal` treatment.
 
 - [ ] **Step 2: Verify types**
@@ -321,9 +345,11 @@ git commit -m "feat: add homepage full-width code example section"
 ### Task 11: CommunitySection
 
 **Files:**
+
 - Create: `resources/js/components/home/community-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `InfoCard` (Task 3), `useReveal` (Task 1).
 - Produces: `CommunitySection(): JSX.Element`, rendering `<section id="community">` — used by Task 14.
 
@@ -348,9 +374,11 @@ git commit -m "feat: add homepage community section"
 ### Task 12: FinalCtaSection
 
 **Files:**
+
 - Create: `resources/js/components/home/final-cta-section.tsx`
 
 **Interfaces:**
+
 - Consumes: `Button` from `@/components/ui/button`, `register`, `dashboard` from `@/routes`.
 - Produces: `FinalCtaSection({ isAuthenticated }: { isAuthenticated: boolean }): JSX.Element` — used by Task 14.
 
@@ -375,9 +403,11 @@ git commit -m "feat: add homepage final CTA section"
 ### Task 13: SiteFooter
 
 **Files:**
+
 - Create: `resources/js/components/home/site-footer.tsx`
 
 **Interfaces:**
+
 - Consumes: `Github` icon (or similar) from `lucide-react`.
 - Produces: `SiteFooter(): JSX.Element` — used by Task 14.
 
@@ -402,9 +432,11 @@ git commit -m "feat: add homepage footer"
 ### Task 14: Compose the homepage
 
 **Files:**
+
 - Modify: `resources/js/pages/welcome.tsx` (full rewrite of body; route/behavior unchanged)
 
 **Interfaces:**
+
 - Consumes: `SiteNavbar` (4), `HeroSection` (5), `TrustSection` (6), `FeaturesSection` (7), `DevExperienceSection` (8), `EcosystemSection` (9), `CodeExampleSection` (10), `CommunitySection` (11), `FinalCtaSection` (12), `SiteFooter` (13); `Head` and `usePage` from `@inertiajs/react` (as in the current file).
 
 - [ ] **Step 1: Rewrite `Welcome`**
@@ -428,6 +460,7 @@ git commit -m "feat: compose new developer-focused homepage"
 ### Task 15: Final verification
 
 **Files:**
+
 - None (verification only).
 
 - [ ] **Step 1: Full typecheck and format/lint**
