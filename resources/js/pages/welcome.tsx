@@ -22,7 +22,10 @@ export default function Welcome() {
         <>
             <Head title="Build Modern PHP Applications">
                 <meta name="description" content={pageDescription} />
-                <meta property="og:title" content="Build Modern PHP Applications" />
+                <meta
+                    property="og:title"
+                    content="Build Modern PHP Applications"
+                />
                 <meta property="og:description" content={pageDescription} />
                 <meta property="og:type" content="website" />
             </Head>

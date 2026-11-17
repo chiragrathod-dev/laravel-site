@@ -8,8 +8,10 @@ export function DevExperienceSection() {
         <section id="dev-experience" className="bg-zinc-950 py-24">
             <div
                 ref={ref}
-                className={`mx-auto grid max-w-7xl gap-12 px-4 transition-all duration-700 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 motion-reduce:transform-none motion-reduce:opacity-100 ${
-                    isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                className={`mx-auto grid max-w-7xl gap-12 px-4 transition-all duration-700 motion-reduce:transform-none motion-reduce:opacity-100 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 ${
+                    isVisible
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-4 opacity-0'
                 }`}
             >
                 <div>
@@ -20,8 +22,8 @@ export function DevExperienceSection() {
                         Expressive syntax and productive tooling mean less time
                         wiring things together and more time shipping features
                         that matter. Every API is designed to read like the
-                        problem you&apos;re solving, not the framework underneath
-                        it.
+                        problem you&apos;re solving, not the framework
+                        underneath it.
                     </p>
                 </div>
 

@@ -88,13 +88,13 @@ with original content (no copied copy, assets, or source).
 - Navbar: desktop horizontal nav, sticky; mobile uses the existing
   `Sheet` component as the drawer. Items: Documentation, Features,
   Ecosystem, Community, Pricing, GitHub, "Get Started" CTA.
-  - Features / Ecosystem / Community scroll to their section's own
-    `id` (`#features`, `#ecosystem`, `#community`).
-  - Documentation scrolls to the developer-experience section
-    (`#dev-experience`), which is the closest on-page stand-in for docs.
-  - Pricing and GitHub have no backing page/repo in this app, so they
-    are placeholder `href="#"` links (standard for a single-page demo
-    with no further pages) rather than fabricated external URLs.
+    - Features / Ecosystem / Community scroll to their section's own
+      `id` (`#features`, `#ecosystem`, `#community`).
+    - Documentation scrolls to the developer-experience section
+      (`#dev-experience`), which is the closest on-page stand-in for docs.
+    - Pricing and GitHub have no backing page/repo in this app, so they
+      are placeholder `href="#"` links (standard for a single-page demo
+      with no further pages) rather than fabricated external URLs.
 - Auth-aware CTAs (navbar, hero, final CTA): `auth.user` present → single
   "Dashboard" button to `dashboard()`; absent → "Log in" link to
   `login()` plus a primary "Get Started" button to `register()`.

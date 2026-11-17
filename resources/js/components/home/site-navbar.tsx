@@ -31,13 +31,20 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
     return (
         <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <a href="#" className="text-lg font-bold tracking-tight text-zinc-50">
+                <a
+                    href="#"
+                    className="text-lg font-bold tracking-tight text-zinc-50"
+                >
                     Forge<span className="text-pink-500">.</span>
                 </a>
 
                 <nav className="hidden items-center gap-8 lg:flex">
                     {navLinks.map((item) => (
-                        <a key={item.label} href={item.href} className={navLinkClassName}>
+                        <a
+                            key={item.label}
+                            href={item.href}
+                            className={navLinkClassName}
+                        >
                             {item.label}
                         </a>
                     ))}
@@ -63,7 +70,11 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                 <div className="lg:hidden">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" aria-label="Open navigation menu">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label="Open navigation menu"
+                            >
                                 <Menu className="size-5" />
                             </Button>
                         </SheetTrigger>
@@ -71,7 +82,9 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                             side="right"
                             className="flex w-72 flex-col gap-1 border-zinc-800 bg-zinc-950 text-zinc-50"
                         >
-                            <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+                            <SheetTitle className="sr-only">
+                                Navigation menu
+                            </SheetTitle>
                             <nav className="mt-10 flex flex-col gap-1">
                                 {navLinks.map((item) => (
                                     <SheetClose asChild key={item.label}>
@@ -88,7 +101,9 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                                 {isAuthenticated ? (
                                     <SheetClose asChild>
                                         <Button asChild>
-                                            <Link href={dashboard()}>Dashboard</Link>
+                                            <Link href={dashboard()}>
+                                                Dashboard
+                                            </Link>
                                         </Button>
                                     </SheetClose>
                                 ) : (
@@ -103,7 +118,9 @@ export function SiteNavbar({ isAuthenticated }: SiteNavbarProps) {
                                         </SheetClose>
                                         <SheetClose asChild>
                                             <Button asChild>
-                                                <Link href={register()}>Get Started</Link>
+                                                <Link href={register()}>
+                                                    Get Started
+                                                </Link>
                                             </Button>
                                         </SheetClose>
                                     </>

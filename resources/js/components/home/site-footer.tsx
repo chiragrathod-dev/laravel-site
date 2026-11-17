@@ -16,18 +16,25 @@ export function SiteFooter() {
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
                 <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
                     <div className="max-w-sm">
-                        <a href="#" className="text-lg font-bold tracking-tight text-zinc-50">
+                        <a
+                            href="#"
+                            className="text-lg font-bold tracking-tight text-zinc-50"
+                        >
                             Forge<span className="text-pink-500">.</span>
                         </a>
                         <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-                            A modern PHP framework for building elegant, scalable
-                            web applications.
+                            A modern PHP framework for building elegant,
+                            scalable web applications.
                         </p>
                     </div>
 
                     <nav className="flex flex-wrap gap-x-8 gap-y-3">
                         {footerLinks.map((item) => (
-                            <a key={item.label} href={item.href} className={linkClassName}>
+                            <a
+                                key={item.label}
+                                href={item.href}
+                                className={linkClassName}
+                            >
                                 {item.label}
                             </a>
                         ))}

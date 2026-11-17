@@ -30,7 +30,11 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                     </p>
                     <div className="mt-10 flex flex-wrap items-center gap-4">
                         <Button size="lg" asChild>
-                            <Link href={isAuthenticated ? dashboard() : register()}>
+                            <Link
+                                href={
+                                    isAuthenticated ? dashboard() : register()
+                                }
+                            >
                                 Get Started
                             </Link>
                         </Button>
@@ -46,13 +50,14 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                         <span className="text-zinc-500">::</span>
                         <span className="text-pink-400">get</span>
                         <span className="text-zinc-500">(</span>
-                        <span className="text-emerald-300">&apos;/users&apos;</span>
+                        <span className="text-emerald-300">
+                            &apos;/users&apos;
+                        </span>
                         <span className="text-zinc-500">, </span>
                         <span className="text-pink-400">function</span>
                         <span className="text-zinc-500"> () {'{'}</span>
                         {'\n    '}
-                        <span className="text-pink-400">return</span>
-                        {' '}
+                        <span className="text-pink-400">return</span>{' '}
                         <span className="text-sky-300">User</span>
                         <span className="text-zinc-500">::</span>
                         <span className="text-pink-400">latest</span>
