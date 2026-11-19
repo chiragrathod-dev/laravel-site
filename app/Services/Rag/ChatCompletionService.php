@@ -3,6 +3,7 @@
 namespace App\Services\Rag;
 
 use App\Exceptions\Rag\OpenAiRequestException;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 class ChatCompletionService
@@ -20,13 +21,17 @@ class ChatCompletionService
             throw OpenAiRequestException::missingApiKey();
         }
 
-        $response = Http::withToken($apiKey)->post('https://api.openai.com/v1/chat/completions', [
-            'model' => config('openai.chat_model'),
-            'messages' => [
-                ['role' => 'system', 'content' => $systemPrompt],
-                ['role' => 'user', 'content' => $userPrompt],
-            ],
-        ]);
+        try {
+            $response = Http::withToken($apiKey)->post('https://api.openai.com/v1/chat/completions', [
+                'model' => config('openai.chat_model'),
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemPrompt],
+                    ['role' => 'user', 'content' => $userPrompt],
+                ],
+            ]);
+        } catch (ConnectionException $e) {
+            throw OpenAiRequestException::requestFailed($e->getMessage());
+        }
 
         if ($response->failed()) {
             throw OpenAiRequestException::requestFailed($response->body());

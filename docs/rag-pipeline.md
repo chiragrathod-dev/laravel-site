@@ -106,18 +106,22 @@ php artisan test tests/Unit/Rag tests/Feature/Rag --compact
 
 ## Troubleshooting: 502 vs 422 responses
 
-`POST /chat` can fail two different ways, and the `ChatWidget` treats both as a generic error
-(it reads `body.error` and shows it under the input):
+`POST /chat` can fail two different ways, and the `ChatWidget` handles both:
 
 - **422 Unprocessable Content** — Laravel's own validation failure (`question` missing, not a
   string, or over 1000 characters). This is the framework's default validation error shape
   (`{"message": ..., "errors": {...}}`), **not** `{"error": ...}` — `ChatController` never
-  touches this response. If you see the widget display `undefined` as the error text, this is
-  why: the widget's `ChatErrorResponse` type assumes an `error` key that a 422 response doesn't
-  have.
+  touches this response. The widget's response parsing falls back from `body.error` to
+  `body.message` (and finally to a generic string) when `error` isn't present, so a 422 — or a
+  419 CSRF mismatch, or any other non-JSON-shaped failure — still shows a readable message
+  instead of `undefined`. The `question` input also has `maxLength={1000}`, so this validation
+  error is rarely reached in practice.
 - **502 Bad Gateway** — `ChatController::ask()` caught an `OpenAiRequestException` thrown by
-  `EmbeddingService` or `ChatCompletionService`. This happens when `OPENAI_API_KEY` is empty, or
-  when the OpenAI HTTP call itself fails (network error, non-2xx response, or an unexpected
-  response body shape). The JSON body in this case is `{"error": "<message>"}`, which the
-  widget displays directly. Check `OPENAI_API_KEY` is set to a valid key and that OpenAI's API
-  isn't rate-limiting or otherwise rejecting requests.
+  `EmbeddingService` or `ChatCompletionService`. This happens when `OPENAI_API_KEY` is empty,
+  when the OpenAI HTTP call itself fails (connection error, non-2xx response, or an unexpected
+  response body shape), or when the connection fails outright (DNS failure, connection refused,
+  timeout) — both services catch `ConnectionException` and rethrow it as
+  `OpenAiRequestException` so these cases reach the same 502 path instead of bubbling up as an
+  unhandled 500. The JSON body in this case is `{"error": "<message>"}`, which the widget
+  displays directly. Check `OPENAI_API_KEY` is set to a valid key and that OpenAI's API isn't
+  rate-limiting or otherwise rejecting requests.

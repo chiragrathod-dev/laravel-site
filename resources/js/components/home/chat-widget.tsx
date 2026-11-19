@@ -4,6 +4,7 @@ import { useId, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getCsrfTokenFromCookie } from '@/lib/csrf';
+import { ask } from '@/routes/chat';
 
 interface ChatMessage {
     role: 'user' | 'assistant';
@@ -17,7 +18,8 @@ interface ChatSuccessResponse {
 }
 
 interface ChatErrorResponse {
-    error: string;
+    error?: string;
+    message?: string;
 }
 
 export function ChatWidget() {
@@ -45,7 +47,7 @@ export function ChatWidget() {
         setQuestion('');
 
         try {
-            const response = await fetch('/chat', {
+            const response = await fetch(ask.url(), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,8 +58,14 @@ export function ChatWidget() {
             });
 
             if (!response.ok) {
-                const body = (await response.json()) as ChatErrorResponse;
-                setError(body.error);
+                const body = (await response
+                    .json()
+                    .catch(() => ({}))) as ChatErrorResponse;
+                setError(
+                    body.error ??
+                        body.message ??
+                        'Something went wrong while contacting the assistant. Please try again.',
+                );
 
                 return;
             }
@@ -85,11 +93,11 @@ export function ChatWidget() {
         <section className="bg-zinc-950 py-20">
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                 <h2 className="text-center text-2xl font-semibold text-balance text-zinc-50 sm:text-3xl">
-                    Ask the documentation assistant.
+                    Ask the Pebble FAQ assistant.
                 </h2>
                 <p className="mt-4 text-center text-sm leading-relaxed text-zinc-400">
-                    Ask a question about this framework and get an answer
-                    grounded in our docs.
+                    Answers come from a sample FAQ for Pebble, a fictional
+                    note-taking app, used to demonstrate a RAG pipeline.
                 </p>
 
                 <div className="mt-10 rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
@@ -164,7 +172,8 @@ export function ChatWidget() {
                             onChange={(event) =>
                                 setQuestion(event.target.value)
                             }
-                            placeholder="Ask a question about Laravel…"
+                            placeholder="e.g. Can I use Pebble offline?"
+                            maxLength={1000}
                             disabled={isLoading}
                             className="border-zinc-700 bg-zinc-950 text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-pink-500/50"
                         />

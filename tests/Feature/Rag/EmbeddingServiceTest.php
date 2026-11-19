@@ -45,4 +45,14 @@ class EmbeddingServiceTest extends TestCase
 
         app(EmbeddingService::class)->embed('hello');
     }
+
+    public function test_embed_throws_when_the_connection_fails()
+    {
+        Http::fake(['*' => Http::failedConnection()]);
+        config(['openai.api_key' => 'test-key']);
+
+        $this->expectException(OpenAiRequestException::class);
+
+        app(EmbeddingService::class)->embed('hello');
+    }
 }

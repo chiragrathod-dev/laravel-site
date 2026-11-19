@@ -3,6 +3,7 @@
 namespace App\Services\Rag;
 
 use App\Exceptions\Rag\OpenAiRequestException;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 class EmbeddingService
@@ -22,10 +23,14 @@ class EmbeddingService
             throw OpenAiRequestException::missingApiKey();
         }
 
-        $response = Http::withToken($apiKey)->post('https://api.openai.com/v1/embeddings', [
-            'model' => config('openai.embedding_model'),
-            'input' => $text,
-        ]);
+        try {
+            $response = Http::withToken($apiKey)->post('https://api.openai.com/v1/embeddings', [
+                'model' => config('openai.embedding_model'),
+                'input' => $text,
+            ]);
+        } catch (ConnectionException $e) {
+            throw OpenAiRequestException::requestFailed($e->getMessage());
+        }
 
         if ($response->failed()) {
             throw OpenAiRequestException::requestFailed($response->body());

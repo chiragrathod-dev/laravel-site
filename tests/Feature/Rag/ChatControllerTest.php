@@ -28,6 +28,11 @@ class ChatControllerTest extends TestCase
             'answer' => 'the answer',
             'sources' => ['relevant chunk'],
         ]);
+
+        Http::assertSent(function ($request) {
+            return str_contains($request->url(), 'chat/completions')
+                && str_contains(json_encode($request->data()), 'relevant chunk');
+        });
     }
 
     public function test_rejects_a_missing_question()

@@ -45,4 +45,14 @@ class ChatCompletionServiceTest extends TestCase
 
         app(ChatCompletionService::class)->complete('system', 'user');
     }
+
+    public function test_complete_throws_when_the_connection_fails()
+    {
+        Http::fake(['*' => Http::failedConnection()]);
+        config(['openai.api_key' => 'test-key']);
+
+        $this->expectException(OpenAiRequestException::class);
+
+        app(ChatCompletionService::class)->complete('system', 'user');
+    }
 }
