@@ -21,9 +21,25 @@ class ChatCompletionServiceTest extends TestCase
     {
         config(['openai.providers.openai.api_key' => null]);
 
-        $this->expectException(OpenAiRequestException::class);
+        try {
+            app(ChatCompletionService::class)->complete('system', 'user');
+            $this->fail('Expected an OpenAiRequestException.');
+        } catch (OpenAiRequestException $e) {
+            $this->assertStringContainsString('OPENAI_API_KEY', $e->getMessage());
+        }
+    }
 
-        app(ChatCompletionService::class)->complete('system', 'user');
+    public function test_complete_names_the_right_env_var_when_the_openrouter_key_is_missing()
+    {
+        config(['openai.provider' => 'openrouter']);
+        config(['openai.providers.openrouter.api_key' => null]);
+
+        try {
+            app(ChatCompletionService::class)->complete('system', 'user');
+            $this->fail('Expected an OpenAiRequestException.');
+        } catch (OpenAiRequestException $e) {
+            $this->assertStringContainsString('OPENROUTER_API_KEY', $e->getMessage());
+        }
     }
 
     public function test_complete_throws_when_the_request_fails()
@@ -68,12 +84,19 @@ class ChatCompletionServiceTest extends TestCase
         Http::assertSent(fn ($request) => str_contains($request->url(), 'openrouter.ai/api/v1/chat/completions'));
     }
 
-    public function test_complete_throws_a_clean_error_for_an_unknown_provider()
+    public function test_complete_throws_a_clean_error_for_an_unknown_provider_without_falling_back()
     {
         config(['openai.provider' => 'does-not-exist']);
+        config(['openai.providers.openai.api_key' => 'test-key']);
+        Http::fake();
 
-        $this->expectException(OpenAiRequestException::class);
+        try {
+            app(ChatCompletionService::class)->complete('system', 'user');
+            $this->fail('Expected an OpenAiRequestException.');
+        } catch (OpenAiRequestException $e) {
+            $this->assertStringContainsString('does-not-exist', $e->getMessage());
+        }
 
-        app(ChatCompletionService::class)->complete('system', 'user');
+        Http::assertNothingSent();
     }
 }

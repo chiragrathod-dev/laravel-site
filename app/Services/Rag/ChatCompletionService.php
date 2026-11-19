@@ -19,7 +19,7 @@ class ChatCompletionService
         $apiKey = $config['api_key'] ?? null;
 
         if (empty($apiKey)) {
-            throw OpenAiRequestException::missingApiKey();
+            throw OpenAiRequestException::missingApiKey(config('openai.provider', 'openai'));
         }
 
         try {
