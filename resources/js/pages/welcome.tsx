@@ -1,5 +1,6 @@
 import { Head, usePage } from '@inertiajs/react';
 
+import { ChatWidget } from '@/components/home/chat-widget';
 import { CodeExampleSection } from '@/components/home/code-example-section';
 import { CommunitySection } from '@/components/home/community-section';
 import { DevExperienceSection } from '@/components/home/dev-experience-section';
@@ -39,6 +40,7 @@ export default function Welcome() {
                 <CodeExampleSection />
                 <CommunitySection />
                 <FinalCtaSection isAuthenticated={isAuthenticated} />
+                <ChatWidget />
                 <SiteFooter />
             </div>
         </>
