@@ -15,7 +15,7 @@ class RetrievalServiceTest extends TestCase
     public function test_returns_the_top_k_chunks_ordered_by_similarity_to_the_question()
     {
         Http::fake(['*/embeddings' => Http::response(['data' => [['embedding' => [1, 0, 0]]]])]);
-        config(['openai.api_key' => 'test-key']);
+        config(['openai.providers.openai.api_key' => 'test-key']);
 
         $best = DocumentChunk::factory()->create(['content' => 'best match', 'embedding' => [1, 0, 0]]);
         DocumentChunk::factory()->create(['content' => 'worst match', 'embedding' => [0, 1, 0]]);
@@ -31,7 +31,7 @@ class RetrievalServiceTest extends TestCase
     public function test_returns_an_empty_collection_when_no_chunks_exist()
     {
         Http::fake(['*/embeddings' => Http::response(['data' => [['embedding' => [1, 0, 0]]]])]);
-        config(['openai.api_key' => 'test-key']);
+        config(['openai.providers.openai.api_key' => 'test-key']);
 
         $results = app(RetrievalService::class)->retrieveRelevantChunks('anything');
 
