@@ -17,15 +17,16 @@ class EmbeddingService
      */
     public function embed(string $text): array
     {
-        $apiKey = config('openai.api_key');
+        $config = RagProviderConfig::current();
+        $apiKey = $config['api_key'] ?? null;
 
         if (empty($apiKey)) {
             throw OpenAiRequestException::missingApiKey();
         }
 
         try {
-            $response = Http::withToken($apiKey)->post('https://api.openai.com/v1/embeddings', [
-                'model' => config('openai.embedding_model'),
+            $response = Http::withToken($apiKey)->post("{$config['base_url']}/embeddings", [
+                'model' => $config['embedding_model'],
                 'input' => $text,
             ]);
         } catch (ConnectionException $e) {
