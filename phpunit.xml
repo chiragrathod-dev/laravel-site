@@ -32,5 +32,8 @@
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <env name="RAG_PROVIDER" value="openai"/>
+        <env name="OPENAI_API_KEY" value=""/>
+        <env name="OPENROUTER_API_KEY" value=""/>
     </php>
 </phpunit>

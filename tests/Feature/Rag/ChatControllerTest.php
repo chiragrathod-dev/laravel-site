@@ -20,7 +20,7 @@ class ChatControllerTest extends TestCase
             '*/embeddings' => Http::response(['data' => [['embedding' => [1, 0, 0]]]]),
             '*/chat/completions' => Http::response(['choices' => [['message' => ['content' => 'the answer']]]]),
         ]);
-        config(['openai.api_key' => 'test-key']);
+        config(['openai.providers.openai.api_key' => 'test-key']);
 
         $response = $this->postJson(route('chat.ask'), ['question' => 'What is it?']);
 
@@ -47,7 +47,7 @@ class ChatControllerTest extends TestCase
 
     public function test_returns_502_when_the_api_key_is_missing()
     {
-        config(['openai.api_key' => null]);
+        config(['openai.providers.openai.api_key' => null]);
 
         $this->postJson(route('chat.ask'), ['question' => 'What is it?'])->assertStatus(502);
     }
