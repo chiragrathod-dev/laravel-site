@@ -15,15 +15,16 @@ class ChatCompletionService
      */
     public function complete(string $systemPrompt, string $userPrompt): string
     {
-        $apiKey = config('openai.api_key');
+        $config = RagProviderConfig::current();
+        $apiKey = $config['api_key'] ?? null;
 
         if (empty($apiKey)) {
             throw OpenAiRequestException::missingApiKey();
         }
 
         try {
-            $response = Http::withToken($apiKey)->post('https://api.openai.com/v1/chat/completions', [
-                'model' => config('openai.chat_model'),
+            $response = Http::withToken($apiKey)->post("{$config['base_url']}/chat/completions", [
+                'model' => $config['chat_model'],
                 'messages' => [
                     ['role' => 'system', 'content' => $systemPrompt],
                     ['role' => 'user', 'content' => $userPrompt],
